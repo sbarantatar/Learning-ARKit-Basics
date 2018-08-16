@@ -86,3 +86,40 @@ extension ViewController : ARSKViewDelegate {
 }
 ```
 3. At this point, we are able to run the app and see the AR session is running on our phone.
+
+## Hit Testing
+
+1. With ARKit and SpriteKit, we will add 2D object into the real world. Before doing that, let's add an image to our assets. We can do that by simply dragging and dropping our image to the assets folder in our project.
+2. Add the following code to the `Scene.swift`
+```
+override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
+        
+    guard let sceneView = self.view as? ARSKView else {return}
+
+    if let touchLocation = touches.first?.location(in: sceneView) {
+        if let hit = sceneView.hitTest(touchLocation, types: .featurePoint).first {
+            sceneView.session.add(anchor: ARAnchor(transform: hit.worldTransform))
+        }
+    }
+
+}
+```
+3. Go to `ViewController` and let's assign our `ARSKViewDelegate` to our scene view. We can do that bay adding the following code to the `viewDidLoad` method.
+```
+sceneView.delegate = self
+```
+4. Add the following code snippet to the `ARSKViewDelegate`. This will create a node for our image for the anchor we created before.
+```    
+    func view(_ view: ARSKView, didAdd node: SKNode, for anchor: ARAnchor) {
+        let imageNode = SKSpriteNode(imageNamed: "image-name")
+        imageNode.xScale = 0.25
+        imageNode.yScale = 0.25
+        
+        node.addChild(imageNode)
+    }
+```
+5. Run the app and test the code by touching the screen.
+
+
+
+
