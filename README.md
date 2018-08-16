@@ -124,13 +124,39 @@ sceneView.delegate = self
 
 ## Part 2
 
-### Creating a cool menu
+### Creating a menu
 
-1.  Add a new `Color Sprite` as a placeholder for our animation.
+1. Add a new `Color Sprite` as a placeholder for our animation.
 2. From action library, drag-and-drop `AnimationWithTextures Action` under newly created node.
 3. Click on `Animate with Textures` action and observe that there is a `Textures` section on the right panel. Drag-and-drop animation images to this section.
 4. Select the `Color Sprite` we created for our animation, and select the first animation image from the `Textures` dropdown menu on right panel. When we click the `Animate` button under the scene, we will see that our animation is fired up.
 In order to make the animation continues,  select the animation action and hit the little circular arrow button on the bottom left corner and hit infinity symbol. 
+
+### Sprite Interactions
+
+1. Go to `MainMenuScene.swift` and add the following code. This piece of code finds the sprite nodes of the position where use touches. If we find that user touched to the `StartGame` node, then we will transition to the `GameScene`.
+```
+override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
+
+    guard let touch = touches.first else {return}
+    let positionInScene = touch.location(in: self)
+    let touchedNodes = self.nodes(at: positionInScene)
+
+    if let name = touchedNodes.last?.name {
+        if name == "StartGame" {
+            let transition = SKTransition.crossFade(withDuration: 0.9)
+
+            guard let sceneView = self.view as? ARSKView else {return}
+
+            if let gameScene = GameScene(fileNamed: "GameScene") {
+                sceneView.presentScene(gameScene, transition: transition)
+            }
+        }
+    }
+
+
+}
+```
 
 
 
