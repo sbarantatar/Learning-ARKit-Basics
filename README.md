@@ -1,6 +1,8 @@
 # Learning-ARKit-Basics
 
-## ARKit Project Setup
+## Part 1
+
+### ARKit Project Setup
 
 1. Create a new `Single View App`
 2. Go to `Main.storyboard` and delete `UIView`
@@ -34,7 +36,7 @@ if let scene = SKScene(fileNamed: "Scene") {
 ```
 11. We need a permission from user to use the camera. In order to do that, go to Info.plist, right click and select `Add row` and from the list, select `Privacy - Camera Usage Description`. We can add a custom message indicating why we need this permission by specifying the `Value` field. It can be something like "This app will use the camera for AR"
 
-## Check for AR Compatibility
+### Check for AR Compatibility
 
 1. Go the Info.plist, expand "Required device capabilities" list, select `Item 0` and click plus button. This will create another row with name "Item 1". Specify its value as "arkit"
 2. Go to `AppDelegate` file and import ARKit
@@ -49,7 +51,7 @@ guard ARWorldTrackingConfiguration.isSupported else {
 ```
 4. Try running the application on Simulator. Since simulator does not have a camera, we will get a fatal error that we just created.
 
-## Basic AR Configuration
+### Basic AR Configuration
 
 1. First of all, add `viewWillAppear` and `viewWillDisappear` methods to `View Controller` and specify the configuration.
 ```
@@ -87,7 +89,7 @@ extension ViewController : ARSKViewDelegate {
 ```
 3. At this point, we are able to run the app and see the AR session is running on our phone.
 
-## Hit Testing
+### Hit Testing
 
 1. With ARKit and SpriteKit, we will add 2D object into the real world. Before doing that, let's add an image to our assets. We can do that by simply dragging and dropping our image to the assets folder in our project.
 2. Add the following code to the `Scene.swift`
@@ -119,6 +121,16 @@ sceneView.delegate = self
     }
 ```
 5. Run the app and test the code by touching the screen.
+
+## Part 2
+
+### Creating a cool menu
+
+1.  Add a new `Color Sprite` as a placeholder for our animation.
+2. From action library, drag-and-drop `AnimationWithTextures Action` under newly created node.
+3. Click on `Animate with Textures` action and observe that there is a `Textures` section on the right panel. Drag-and-drop animation images to this section.
+4. Select the `Color Sprite` we created for our animation, and select the first animation image from the `Textures` dropdown menu on right panel. When we click the `Animate` button under the scene, we will see that our animation is fired up.
+In order to make the animation continues,  select the animation action and hit the little circular arrow button on the bottom left corner and hit infinity symbol. 
 
 
 
