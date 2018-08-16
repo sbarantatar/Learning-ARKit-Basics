@@ -124,7 +124,7 @@ sceneView.delegate = self
 
 ## Part 2
 
-### Creating a menu
+### Creating a Menu
 
 1. Add a new `Color Sprite` as a placeholder for our animation.
 2. From action library, drag-and-drop `AnimationWithTextures Action` under newly created node.
@@ -157,6 +157,48 @@ override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
 
 }
 ```
+
+### SKActions Setup
+
+1. Now it is time to define our sprite programmatically, so that we can place them to the random location in real world. Go to `Bird.swift` file and add the following code.
+
+```
+var mainSprite = SKSpriteNode()
+    
+func setup(){
+
+    mainSprite = SKSpriteNode(imageNamed: "bird1")
+    self.addChild(mainSprite)
+
+    let textureAtals = SKTextureAtlas(named: "bird")
+    let frames = ["sprite_0", "sprite_1", "sprite_2", "sprite_3", "sprite_4", "sprite_5", "sprite_6"].map{textureAtals.textureNamed($0)}
+
+    let atlasAnimation = SKAction.animate(with: frames, timePerFrame: 1/7, resize: true, restore: false)
+
+    let animationAction = SKAction.repeatForever(atlasAnimation)
+    mainSprite.run(animationAction)
+
+
+    let left = GKRandomSource.sharedRandom().nextBool()
+    if left {
+        mainSprite.xScale = -1
+    }
+
+    let duration = randomNumber(lowerBound: 15, upperBound: 20)
+
+    let fade = SKAction.fadeOut(withDuration: TimeInterval(duration))
+    let removeBird = SKAction.run {
+        // create a new bird
+        self.removeFromParent()
+    }
+
+    let flySeqence = SKAction.sequence([fade, removeBird])
+
+    mainSprite.run(flySeqence)
+
+}
+```
+
 
 
 
